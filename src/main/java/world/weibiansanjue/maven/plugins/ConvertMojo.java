@@ -23,22 +23,21 @@ import java.util.List;
 @Mojo(name = "convert")
 public class ConvertMojo extends AbstractMojo {
 
-    private static final String INPUT = "%s%sCHANGELOG.md";
-    private static final String OUTPUT = "%s%schangelog.html";
+    @Parameter(property = "inputFilePath", defaultValue = "${basedir}/CHANGELOG.md")
+    private String inputFilePath;
 
-    @Parameter(property = "basedir")
-    private String basedir;
+    @Parameter(property = "outputFilePath", defaultValue = "${basedir}/changelog.html")
+    private String outputFilePath;
 
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
-        String input = String.format(INPUT, basedir, File.separator);
-        String output = String.format(OUTPUT, basedir, File.separator);
-        getLog().info("开始转换：" + input);
+
+        getLog().info("start convert: " + inputFilePath);
         try {
-            convert(input, output);
-            getLog().info("转换成功: " + output);
+            convert(inputFilePath, outputFilePath);
+            getLog().info("convert success: " + outputFilePath);
         } catch (IOException e) {
-            getLog().error("转换失败!", e);
+            getLog().error("convert fail!", e);
         }
     }
 
@@ -55,7 +54,7 @@ public class ConvertMojo extends AbstractMojo {
 
         String html = renderer.render(parser.parse(markdown));
 
-        String htmlTemplate = ResourceUtil.getString("template" + File.separator + "changelog.html");
+        String htmlTemplate = ResourceUtil.getString("template/changelog.html");
         html = htmlTemplate.replace("${cl-context}", html);
 
         FileUtils.writeStringToFile(

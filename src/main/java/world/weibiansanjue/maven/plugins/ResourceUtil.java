@@ -3,6 +3,7 @@ package world.weibiansanjue.maven.plugins;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -16,11 +17,13 @@ public class ResourceUtil {
 
     public static String getString(String filename) throws IOException {
         String jarPath = ResourceUtil.class.getClassLoader()
-                                     .getResource("world")
-                                     .getPath()
-                                     .replace("file:", "")
-                                     .replace("!/world", "");
-
+                .getResource("world")
+                .getPath()
+                .replace("file:", "")
+                .replace("!/world", "");
+        if (jarPath.contains(":")) { // Windows system
+            jarPath.replaceFirst("/", "").replace("/", File.separator);
+        }
 
         JarFile jarFile = new JarFile(jarPath);
         InputStream is = jarFile.getInputStream(jarFile.getEntry(filename));
