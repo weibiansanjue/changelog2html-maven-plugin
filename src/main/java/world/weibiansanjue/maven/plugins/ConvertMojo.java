@@ -55,11 +55,13 @@ public class ConvertMojo extends AbstractMojo {
 
         String html = renderer.render(parser.parse(markdown));
 
+        String htmlTemplate = ResourceUtil.getString("template" + File.separator + "changelog.html");
+        html = htmlTemplate.replace("${cl-context}", html);
+
         FileUtils.writeStringToFile(
                 new File(output),
                 html,
                 StandardCharsets.UTF_8,
                 false);
     }
-
 }
