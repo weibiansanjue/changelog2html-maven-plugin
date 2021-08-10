@@ -47,7 +47,11 @@ public class ConvertMojo extends AbstractMojo {
         String markdown = String.join("\n", lines);
 
         MutableDataSet options = new MutableDataSet();
-        options.set(Parser.EXTENSIONS, Arrays.asList(TocExtension.create()));
+        options.set(Parser.EXTENSIONS, Arrays.asList(TocExtension.create()))
+                .set(TocExtension.LEVELS, 255)
+                .set(TocExtension.TITLE, "版本目录")
+                .set(TocExtension.LIST_CLASS, "toc-ul")
+                .set(TocExtension.DIV_CLASS, "toc");
 
         Parser parser = Parser.builder(options).build();
         HtmlRenderer renderer = HtmlRenderer.builder(options).build();
