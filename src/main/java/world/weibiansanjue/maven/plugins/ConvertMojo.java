@@ -9,6 +9,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
@@ -22,7 +23,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Mojo(name = "convert")
+@Mojo(
+        name = "convert"
+        , defaultPhase = LifecyclePhase.PROCESS_RESOURCES
+)
 public class ConvertMojo extends AbstractMojo {
 
     @Parameter(property = "inputFilePath", defaultValue = "${basedir}/CHANGELOG.md")
