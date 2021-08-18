@@ -31,7 +31,7 @@ public class ConvertMojo extends AbstractMojo {
     @Parameter(property = "outputFilePath", defaultValue = "${basedir}/changelog.html")
     private File outputFile;
 
-    @Parameter(property = "title", defaultValue = "${project.artifactId}")
+    @Parameter(property = "title", defaultValue = "${project.artifactId} 变更记录")
     private String title;
 
     @Override
