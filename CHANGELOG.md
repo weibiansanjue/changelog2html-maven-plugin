@@ -8,7 +8,7 @@
 <!-- ### 已废弃功能(Removed)      -->
 <!-- ### 安全问题修复(Security)    -->
 
-## unreleased
+## v0.3.0
 ### 功能变更(Changed)
 - 简化 CHANGELOG.md 模板
 - 插件自己拼接 TOC，版本正文 div
