@@ -48,10 +48,6 @@
 
 ```markdown
 
-[TOC levels=2]
-
-<!-- <div class="cl-context-version"> -->
-
 <!-- ## unreleased / vX.Y.Z    -->
 <!-- ### 新功能(Added)           -->
 <!-- ### 缺陷修复(Fixed)          -->
@@ -77,11 +73,8 @@
 
 ### 安全问题修复(Security)
 
-<!-- </div> -->
 
 ```
-- <mark>`<!-- <div class="cl-context-version"> -->`</mark> 与 <mark>`<!-- </div> -->`</mark> 是必须的，请不要删除
-- 将版本内容写在 `<!-- <div class="cl-context-version"> -->` 与 `<!-- </div> -->` 之间
 
 ## 效果
 

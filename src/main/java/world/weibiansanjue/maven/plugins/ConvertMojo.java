@@ -3,7 +3,6 @@ package world.weibiansanjue.maven.plugins;
 import com.vladsch.flexmark.ext.toc.TocExtension;
 import com.vladsch.flexmark.html.HtmlRenderer;
 import com.vladsch.flexmark.parser.Parser;
-import com.vladsch.flexmark.util.ast.Node;
 import com.vladsch.flexmark.util.data.MutableDataSet;
 import org.apache.commons.io.FileUtils;
 import org.apache.maven.plugin.AbstractMojo;
@@ -18,10 +17,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Mojo(
         name = "convert"
@@ -38,6 +34,10 @@ public class ConvertMojo extends AbstractMojo {
     @Parameter(property = "title", defaultValue = "${project.artifactId} 变更记录")
     private String title;
 
+    private static final String TOC_DEFINE = "[TOC levels=2]";
+    private static final String VERSION_CONTEXT_DIV_START = "<div class=\"cl-context-version\">";
+    private static final String VERSION_CONTEXT_DIV_END   = "</div>";
+
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
         Map<String, String> params = new HashMap<>();
@@ -52,10 +52,12 @@ public class ConvertMojo extends AbstractMojo {
     }
 
     private void convert(File input, File output, Map<String, String> params) throws IOException {
-        List<String> lines = Files.readAllLines(Paths.get(input.toURI()), StandardCharsets.UTF_8);
+        List<String> lines = new ArrayList<>();
+        lines.add(TOC_DEFINE);
+        lines.add(VERSION_CONTEXT_DIV_START);
+        lines.addAll(Files.readAllLines(Paths.get(input.toURI()), StandardCharsets.UTF_8));
+        lines.add(VERSION_CONTEXT_DIV_END);
         String markdown = String.join("\n", lines);
-        markdown = markdown.replace("<!-- <div class=\"cl-context-version\"> -->", "<div class=\"cl-context-version\">")
-                .replace("<!-- </div> -->", "</div>");
 
         MutableDataSet options = new MutableDataSet();
         options.set(Parser.EXTENSIONS, Arrays.asList(TocExtension.create()))
@@ -66,23 +68,15 @@ public class ConvertMojo extends AbstractMojo {
 
         Parser parser = Parser.builder(options).build();
         HtmlRenderer renderer = HtmlRenderer.builder(options).build();
-
         String html = renderer.render(parser.parse(markdown));
 
-
         String htmlTemplate = ResourceUtil.getString("template/changelog.html");
-
         for (Map.Entry<String, String> entry : params.entrySet()) {
             htmlTemplate = htmlTemplate.replace("${" + entry.getKey() + "}", entry.getValue());
-            getLog().info("params " + entry.getKey() + "=" + entry.getValue());
+            getLog().info("params " + entry.getKey() + " = " + entry.getValue());
         }
-
         html = htmlTemplate.replace("${cl-context}", html);
 
-        FileUtils.writeStringToFile(
-                output,
-                html,
-                StandardCharsets.UTF_8,
-                false);
+        FileUtils.writeStringToFile(output, html, StandardCharsets.UTF_8, false);
     }
 }
