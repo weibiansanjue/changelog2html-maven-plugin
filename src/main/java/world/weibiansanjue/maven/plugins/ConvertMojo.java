@@ -5,6 +5,7 @@ import com.vladsch.flexmark.html.HtmlRenderer;
 import com.vladsch.flexmark.parser.Parser;
 import com.vladsch.flexmark.util.data.MutableDataSet;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -53,18 +54,25 @@ public class ConvertMojo extends AbstractMojo {
 
     private void convert(File input, File output, Map<String, String> params) throws IOException {
         List<String> lines = new ArrayList<>();
+        lines.add(StringUtils.LF);
         lines.add(TOC_DEFINE);
+        lines.add(StringUtils.LF);
         lines.add(VERSION_CONTEXT_DIV_START);
+        lines.add(StringUtils.LF);
         lines.addAll(Files.readAllLines(Paths.get(input.toURI()), StandardCharsets.UTF_8));
+        lines.add(StringUtils.LF);
         lines.add(VERSION_CONTEXT_DIV_END);
-        String markdown = String.join("\n", lines);
+        lines.add(StringUtils.LF);
+        String markdown = String.join(StringUtils.LF, lines);
+
+        getLog().debug("markdown content: " + markdown);
 
         MutableDataSet options = new MutableDataSet();
         options.set(Parser.EXTENSIONS, Arrays.asList(TocExtension.create()))
-                .set(TocExtension.TITLE, "版本目录")
-                .set(TocExtension.TITLE_LEVEL, 3)
-                .set(TocExtension.LIST_CLASS, "cl-toc-ul")
-                .set(TocExtension.DIV_CLASS, "cl-toc");
+               .set(TocExtension.TITLE, "版本目录")
+               .set(TocExtension.TITLE_LEVEL, 3)
+               .set(TocExtension.LIST_CLASS, "cl-toc-ul")
+               .set(TocExtension.DIV_CLASS, "cl-toc");
 
         Parser parser = Parser.builder(options).build();
         HtmlRenderer renderer = HtmlRenderer.builder(options).build();
