@@ -4,7 +4,7 @@
 
   <groupId>world.weibiansanjue.maven</groupId>
   <artifactId>changelog2html-maven-plugin</artifactId>
-  <version>0.3.0</version>
+  <version>0.3.1</version>
 
   <packaging>maven-plugin</packaging>
   <description>changelog to html maven plugin</description>
@@ -144,6 +144,22 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-plugin-plugin</artifactId>
         <version>3.6.1</version>
+      </plugin>
+      <plugin>
+        <groupId>world.weibiansanjue.maven</groupId>
+        <artifactId>changelog2html-maven-plugin</artifactId>
+        <version>0.3.1</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>convert</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <title>version</title>
+          <outputFile>${basedir}/src/main/resources/version.html</outputFile>
+        </configuration>
       </plugin>
     </plugins>
   </build>

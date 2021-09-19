@@ -8,6 +8,10 @@
 <!-- ### 已废弃功能(Removed)      -->
 <!-- ### 安全问题修复(Security)    -->
 
+## v0.3.1
+### 缺陷修复(Fixed)
+- 为 markdown 文本添加换行，防止渲染效果不佳
+
 ## v0.3.0
 ### 功能变更(Changed)
 - 简化 CHANGELOG.md 模板
