@@ -12,6 +12,8 @@ import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
+import com.vladsch.flexmark.ext.tables.TablesExtension;
+import com.vladsch.flexmark.ext.gfm.tasklist.TaskListExtension;
 
 import java.io.File;
 import java.io.IOException;
@@ -68,11 +70,21 @@ public class ConvertMojo extends AbstractMojo {
         getLog().debug("markdown content: " + markdown);
 
         MutableDataSet options = new MutableDataSet();
-        options.set(Parser.EXTENSIONS, Arrays.asList(TocExtension.create()))
+        options.set(Parser.EXTENSIONS, Arrays.asList(
+                    TocExtension.create(),
+                    TablesExtension.create(),
+                    TaskListExtension.create()
+                ))
                .set(TocExtension.TITLE, "版本目录")
                .set(TocExtension.TITLE_LEVEL, 3)
                .set(TocExtension.LIST_CLASS, "cl-toc-ul")
-               .set(TocExtension.DIV_CLASS, "cl-toc");
+               .set(TocExtension.DIV_CLASS, "cl-toc")
+               .set(TablesExtension.CLASS_NAME, "cl-table")
+//               .set(TaskListExtension.ITEM_CLASS, "task-list-item cl-task-list-item")
+               .set(TaskListExtension.ITEM_DONE_MARKER,
+                    "<input type=\"checkbox\" class=\"task-list-item-checkbox\" checked>")
+               .set(TaskListExtension.ITEM_NOT_DONE_MARKER,
+                    "<input type=\"checkbox\" class=\"task-list-item-checkbox\">");
 
         Parser parser = Parser.builder(options).build();
         HtmlRenderer renderer = HtmlRenderer.builder(options).build();

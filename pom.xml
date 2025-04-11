@@ -207,6 +207,20 @@
       <version>${flexmark.version}</version>
     </dependency>
 
+    <!-- 添加表格扩展 -->
+    <dependency>
+      <groupId>com.vladsch.flexmark</groupId>
+      <artifactId>flexmark-ext-tables</artifactId>
+      <version>${flexmark.version}</version>
+    </dependency>
+
+    <!-- 添加任务列表（复选框）扩展 -->
+    <dependency>
+      <groupId>com.vladsch.flexmark</groupId>
+      <artifactId>flexmark-ext-gfm-tasklist</artifactId>
+      <version>${flexmark.version}</version>
+    </dependency>
+
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
