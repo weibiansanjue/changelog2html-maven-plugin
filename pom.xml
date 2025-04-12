@@ -4,7 +4,7 @@
 
   <groupId>world.weibiansanjue.maven</groupId>
   <artifactId>changelog2html-maven-plugin</artifactId>
-  <version>0.3.2</version>
+  <version>0.4.0</version>
 
   <packaging>maven-plugin</packaging>
   <description>changelog to html maven plugin</description>
