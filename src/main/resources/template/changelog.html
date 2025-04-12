@@ -130,6 +130,37 @@
         font-weight: 600;
     }
 
+    /* 添加代码块样式 */
+    .cl-context-version pre {
+        margin: 16px 0;
+        padding: 16px;
+        background-color: rgba(60, 60, 60, 0.04);
+        border: 1px solid var(--vp-c-divider);
+        border-radius: 4px;
+        overflow-x: auto;
+        width: 850px;           /* 使用固定宽度 */
+        box-sizing: border-box;  /* 确保padding不会影响总宽度 */
+    }
+
+    .cl-context-version pre code {
+        font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+        font-size: 14px;
+        line-height: 1.5;
+        display: block;
+        white-space: pre;
+    }
+
+    .cl-code {
+        padding: 2px 4px;
+        margin: 0 2px;
+        background-color: rgba(60, 60, 60, 0.04);
+        border: 1px solid var(--vp-c-divider);
+        border-radius: 4px;
+        font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+        font-size: 14px;
+    }
+
+    /* 在小屏幕设备上自适应 */
     @media (max-width: 960px) {
         .cl-context {
             padding-left: 0;
@@ -141,6 +172,10 @@
 
         .cl-context-writ {
             padding: 24px 16px;
+        }
+
+        .cl-context-version pre {
+            width: 100%;        /* 小屏幕下改为100%宽度 */
         }
     }
     </style>

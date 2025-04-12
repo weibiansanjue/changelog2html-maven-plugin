@@ -101,7 +101,8 @@ public class ConvertMojo extends AbstractMojo {
                .set(TocExtension.LIST_CLASS, "cl-toc-ul")
                .set(TocExtension.DIV_CLASS, "cl-toc")
                .set(TablesExtension.CLASS_NAME, "cl-table")
-//               .set(TaskListExtension.ITEM_CLASS, "task-list-item cl-task-list-item")
+               .set(HtmlRenderer.CODE_STYLE_HTML_OPEN, "<code class=\"cl-code\">")
+               .set(HtmlRenderer.CODE_STYLE_HTML_CLOSE, "</code>")
                .set(TaskListExtension.ITEM_DONE_MARKER,
                     "<input type=\"checkbox\" class=\"task-list-item-checkbox\" checked>")
                .set(TaskListExtension.ITEM_NOT_DONE_MARKER,
