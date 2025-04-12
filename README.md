@@ -67,6 +67,8 @@
                         <params>
                             <!-- 标题 -->
                             <title>version</title>
+                            <!-- 目录级别 2(default)、3、4 -->
+                            <tocLevel>3</tocLevel>
                         </params>
                       </file>
                       <file>

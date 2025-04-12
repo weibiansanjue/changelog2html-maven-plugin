@@ -40,7 +40,8 @@ public class ConvertMojo extends AbstractMojo {
     @Parameter(property = "title", defaultValue = "${project.artifactId} 变更记录")
     private String title;
 
-    private static final String TOC_DEFINE = "[TOC levels=2]";
+    private static final String TOC_DEFINE = "[TOC levels=%d]";
+    private static final int TOC_LEVELS_DEFAULT = 2;
     private static final String VERSION_CONTEXT_DIV_START = "<div class=\"cl-context-version\">";
     private static final String VERSION_CONTEXT_DIV_END   = "</div>";
 
@@ -54,8 +55,12 @@ public class ConvertMojo extends AbstractMojo {
                 File output = file.getOutput();
 
                 getLog().info("start convert: " + input);
+                Map<String, String> params = file.getParams();
+                if (Objects.isNull(params)) {
+                    params = new HashMap<>();
+                }
                 try {
-                    convert(input, output, file.getParams());
+                    convert(input, output, params);
                     getLog().info("convert success: " + output);
                 } catch (IOException e) {
                     getLog().error("convert fail: " + input, e);
@@ -78,7 +83,7 @@ public class ConvertMojo extends AbstractMojo {
     private void convert(File input, File output, Map<String, String> params) throws IOException {
         List<String> lines = new ArrayList<>();
         lines.add(StringUtils.LF);
-        lines.add(TOC_DEFINE);
+        lines.add(getTocLevels(params.get("tocLevel")));
         lines.add(StringUtils.LF);
         lines.add(VERSION_CONTEXT_DIV_START);
         lines.add(StringUtils.LF);
@@ -113,7 +118,7 @@ public class ConvertMojo extends AbstractMojo {
         String html = renderer.render(parser.parse(markdown));
 
         String htmlTemplate = ResourceUtil.getString("template/changelog.html");
-        if (Objects.nonNull(params) && !params.isEmpty()) {
+        if (!params.isEmpty()) {
             for (Map.Entry<String, String> entry : params.entrySet()) {
                 htmlTemplate = htmlTemplate.replace("${" + entry.getKey() + "}", entry.getValue());
                 getLog().info("params " + entry.getKey() + " = " + entry.getValue());
@@ -123,4 +128,19 @@ public class ConvertMojo extends AbstractMojo {
 
         FileUtils.writeStringToFile(output, html, StandardCharsets.UTF_8, false);
     }
+
+    private String getTocLevels(String levels) {
+        String define = String.format(TOC_DEFINE, TOC_LEVELS_DEFAULT);
+        if (StringUtils.isEmpty(levels)) {
+            return define;
+        }
+        try {
+            int l = Integer.parseInt(levels);
+            int ll = l >= 2 && l <= 4 ? l : TOC_LEVELS_DEFAULT;
+            return String.format(TOC_DEFINE, ll);
+        } catch (Exception e) {
+            return define;
+        }
+    }
+
 }
