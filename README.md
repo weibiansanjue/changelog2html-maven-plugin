@@ -11,37 +11,73 @@
 
 ## 使用
 
+- 单文件
 
-```xml
+  ```xml
+  <build>
+      <plugins>
+          <plugin>
+              <groupId>world.weibiansanjue.maven</groupId>
+              <artifactId>changelog2html-maven-plugin</artifactId>
+              <version>${cl-version}</version>
+              <executions>
+                  <execution>
+                      <goals>
+                          <goal>convert</goal>
+                      </goals>
+                  </execution>
+              </executions>
+              <configuration>
+                  <!-- 文件输入路径-->
+                  <inputFile>{project.basedir}/CHANGELOG.md</inputFile>
+                  <!-- 文件输出路径 -->
+                  <outputFile>${project.basedir}/web/version.html</outputFile>
+                  <!-- 标题 -->
+                  <title>version</title>
+              </configuration>
+          </plugin>
+      </plugins>
+  </build>
+  ```
 
-<build>
-    <plugins>
-        <plugin>
-            <groupId>world.weibiansanjue.maven</groupId>
-            <artifactId>changelog2html-maven-plugin</artifactId>
-            <version>${cl-version}</version>
-            <executions>
-                <execution>
-                    <goals>
-                        <goal>convert</goal>
-                    </goals>
-                </execution>
-            </executions>
-            <configuration>
-                <inputFile>{project.basedir}/CHANGELOG.md</inputFile>
-                <outputFile>${project.basedir}/web/version.html</outputFile>
-                <title>version</title>
-            </configuration>
-        </plugin>
-    </plugins>
-</build>
+- 多文件
 
-```
-
-- configuration
-    - inputFile: CHANGLOG.md 文件路径
-    - outputFile: html 文件路径
-    - title: html 标题(title)
+  ```xml
+  <build>
+      <plugins>
+          <plugin>
+              <groupId>world.weibiansanjue.maven</groupId>
+              <artifactId>changelog2html-maven-plugin</artifactId>
+              <version>${cl-version}</version>
+              <executions>
+                  <execution>
+                      <goals>
+                          <goal>convert</goal>
+                      </goals>
+                  </execution>
+              </executions>
+              <configuration>
+                  <files>
+                      <file>
+                        <!-- 文件输入路径-->
+                        <inputFile>{project.basedir}/CHANGELOG.md</inputFile>
+                        <!-- 文件输出路径 -->
+                        <outputFile>${project.basedir}/web/version.html</outputFile>
+                        <!-- 自定义参数 -->
+                        <params>
+                            <!-- 标题 -->
+                            <title>version</title>
+                        </params>
+                      </file>
+                      <file>
+                          ......
+                      </file>
+                  </files>
+              </configuration>
+          </plugin>
+      </plugins>
+  </build>
+  ```
 
 
 ## CHANGELOG.md 模板
