@@ -67,6 +67,17 @@
             <artifactId>maven-release-plugin</artifactId>
             <version>2.5.3</version>
           </plugin>
+          <!--   central发布插件    -->
+          <plugin>
+            <groupId>org.sonatype.central</groupId>
+            <artifactId>central-publishing-maven-plugin</artifactId>
+            <version>0.4.0</version>
+            <extensions>true</extensions>
+            <configuration>
+              <publishingServerId>weibiansanjue</publishingServerId>
+              <tokenAuth>true</tokenAuth>
+            </configuration>
+          </plugin>
           <!-- Javadoc -->
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
