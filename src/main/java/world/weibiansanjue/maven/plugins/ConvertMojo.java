@@ -101,7 +101,7 @@ public class ConvertMojo extends AbstractMojo {
                     TablesExtension.create(),
                     TaskListExtension.create()
                 ))
-               .set(TocExtension.TITLE, "版本目录")
+               .set(TocExtension.TITLE, params.getOrDefault("tocTitle", "版本目录"))
                .set(TocExtension.TITLE_LEVEL, 3)
                .set(TocExtension.LIST_CLASS, "cl-toc-ul")
                .set(TocExtension.DIV_CLASS, "cl-toc")
