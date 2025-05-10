@@ -187,14 +187,39 @@
 
         .cl-toc {
             display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 2;
+            width: 100%;
+            height: 100vh;
+            background-color: #ffffff;
+            overflow-y: auto;
+        }
+
+        .cl-toc.active {
+            display: block;
         }
 
         .cl-context-writ {
-            padding: 24px 16px;
+            padding: 0px 16px;
         }
 
         .cl-context-version pre {
             width: 100%;        /* 小屏幕下改为100%宽度 */
+        }
+
+        .cl-toc-toggle {
+            display: block;
+            position: fixed;
+            top: 16px;
+            left: 16px;
+            z-index: 3;
+            padding: 8px 16px;
+            background-color: #ffffff;
+            border: 1px solid var(--vp-c-divider);
+            border-radius: 4px;
+            cursor: pointer;
         }
     }
     </style>
@@ -206,5 +231,21 @@
 ${cl-context}
         </div>
     </div>
+    <button class="cl-toc-toggle" onclick="toggleToc()">☰</button>
+    <script>
+        function toggleToc() {
+            const toc = document.querySelector('.cl-toc');
+            toc.classList.toggle('active');
+
+            // 只有在目录展开时，才添加点击隐藏逻辑
+            if (toc.classList.contains('active')) {
+                document.querySelectorAll('.cl-toc a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        toc.classList.remove('active');
+                    });
+                });
+            }
+        }
+    </script>
 </body>
 </html>
